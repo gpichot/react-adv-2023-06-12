@@ -1,0 +1,14 @@
+.pokemonCard {
+  max-width: 240px;
+  background-color: #fff;
+  border-radius: 10px;
+  color: black;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  padding: 10px;
+}
+
+.typesList {
+  margin: 10px;
+}
