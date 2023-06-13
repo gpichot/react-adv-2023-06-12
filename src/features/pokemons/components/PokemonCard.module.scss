@@ -1,6 +1,7 @@
 .pokemonCard {
-  max-width: 240px;
+  border: 1px solid #33333311;
   background-color: #fff;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   color: black;
   display: flex;

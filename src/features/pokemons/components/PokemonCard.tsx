@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { PokemonDetail } from "../types";
 import PokemonTypePillList from "./PokemonTypePillList";
@@ -25,6 +26,7 @@ export default function PokemonCard(props: PokemonCardProps) {
       <img src={pokemon.image} alt={pokemon.name} height={120} width={120} />
       <span>{pokemon.name}</span>
       <PokemonTypePillList types={pokemon.types} className={styles.typesList} />
+      <Link to={`/pokemons/${pokemon.id}`}>View Details</Link>
     </div>
   );
 }

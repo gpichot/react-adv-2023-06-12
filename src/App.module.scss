@@ -5,9 +5,10 @@
 }
 
 .pokemonList {
+  margin: 10px auto;
   display: grid;
   // Three columns, each with a minimum width of 240px
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   :global(.foo) {
     background-color: blue;
