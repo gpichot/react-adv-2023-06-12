@@ -7,10 +7,9 @@ import {
   useParams,
 } from "react-router-dom";
 
-import PokemonCard from "./features/pokemons/components/PokemonCard";
 import PokemonDetailPage from "./features/pokemons/components/PokemonDetailPage";
 import PokemonForm from "./features/pokemons/components/PokemonForm";
-import { pokemonListMock } from "./features/pokemons/mock";
+import PokemonList from "./features/pokemons/components/PokemonList";
 
 import "./globals.scss";
 import styles from "./App.module.scss";
@@ -24,16 +23,6 @@ function Root() {
         <Link to="/pokemons/new">New Pokemon</Link>
       </div>
       <Outlet />
-    </div>
-  );
-}
-
-function PokemonListPage() {
-  return (
-    <div className={styles.pokemonList}>
-      {pokemonListMock.map((pokemon) => (
-        <PokemonCard key={pokemon.id} pokemon={pokemon} />
-      ))}
     </div>
   );
 }
@@ -54,7 +43,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <PokemonListPage />,
+        element: <PokemonList />,
       },
       {
         path: "/pokemons/:pokemonId",
