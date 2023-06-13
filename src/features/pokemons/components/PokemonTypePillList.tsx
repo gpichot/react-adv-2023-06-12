@@ -6,7 +6,11 @@ import styles from "./PokemonTypePillList.module.scss";
 
 export interface PokemonTypePillListProps
   extends React.ComponentPropsWithoutRef<"div"> {
+  /**
+   * Les types du pokémon
+   */
   types: PokemonType[];
+  onClickType?: (type: PokemonType) => void;
 }
 
 const pokemonTypeColors: Record<PokemonType, string> = {
@@ -52,7 +56,7 @@ const pokemonTypeEmoji: Record<PokemonType, string> = {
 };
 
 export default function PokemonTypePillList(props: PokemonTypePillListProps) {
-  const { types, ...divProps } = props;
+  const { types, onClickType, ...divProps } = props;
 
   return (
     <div {...divProps} className={classnames(styles.list, divProps.className)}>
@@ -65,6 +69,12 @@ export default function PokemonTypePillList(props: PokemonTypePillListProps) {
             borderRadius: 8,
             padding: "4px 8px",
             color: "black",
+          }}
+          tabIndex={0}
+          role="button"
+          onClick={() => onClickType?.(type)}
+          onKeyDown={() => {
+            /* pass */
           }}
         >
           {pokemonTypeEmoji[type]}
