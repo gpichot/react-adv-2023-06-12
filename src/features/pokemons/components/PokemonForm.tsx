@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import InputControl from "@/features/core/components/InputControl";
 
-type PokemonCreatePayload = {
-  name: string;
-  type: string;
-  weight: number;
-  height: number;
-};
+import {
+  PokemonCreatePayload,
+  useCreatePokemonMutation,
+} from "../mutation-hooks";
+import { baseUrl } from "../query-hooks";
+import { PokemonDetail } from "../types";
 
 interface PokemonFormProps {
   onSubmit?: (pokemon: PokemonCreatePayload) => void;
 }
+
+const sleep = () => new Promise((resolve) => setTimeout(resolve, 2000));
 
 export default function PokemonForm(props: PokemonFormProps) {
   const { onSubmit } = props;
@@ -19,6 +23,19 @@ export default function PokemonForm(props: PokemonFormProps) {
   const [type, setType] = React.useState("");
   const [weight, setWeight] = React.useState(0);
   const [height, setHeight] = React.useState(0);
+  const navigate = useNavigate();
+  const formRef = useRef<HTMLFormElement | null>(null);
+
+  const createPokemonMutation = useCreatePokemonMutation({
+    onSuccess: (pokemon) => {
+      //navigate(`/pokemons/${pokemon.id}`);
+      // navigate("/pokemons/new");
+      formRef.current?.reset();
+    },
+    onError: () => {
+      // pass
+    },
+  });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -29,12 +46,19 @@ export default function PokemonForm(props: PokemonFormProps) {
       weight,
       height,
     };
-    console.log(payload);
     onSubmit?.(payload);
+    createPokemonMutation.mutate(payload);
+  };
+
+  const handleReset = () => {
+    setName("");
+    setType("");
+    setWeight(0);
+    setHeight(0);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form ref={formRef} onSubmit={handleSubmit} onReset={handleReset}>
       <InputControl
         label="Name"
         name="name"
@@ -61,7 +85,9 @@ export default function PokemonForm(props: PokemonFormProps) {
         value={height}
         onChange={(event) => setHeight(event.target.valueAsNumber)}
       />
-      <button type="submit">Create</button>
+      <button type="submit" disabled={createPokemonMutation.isLoading}>
+        Create
+      </button>
     </form>
   );
 }
