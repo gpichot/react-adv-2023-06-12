@@ -4,9 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { pokemonListMock } from "../mock";
 import { usePokemonDetailQuery } from "../query-hooks";
 import { PokemonDetail } from "../types";
+import PokemonList from "./PokemonList";
 import PokemonTypePillList from "./PokemonTypePillList";
 
 export default function PokemonDetailPage() {
+  console.log(PokemonList);
   const { pokemonId } = useParams<{ pokemonId: string }>();
 
   const pokemonDetailQuery = usePokemonDetailQuery(pokemonId);

@@ -7,16 +7,20 @@ interface InputControlProps extends React.ComponentPropsWithoutRef<"input"> {
   name: string;
 }
 
-export default function InputControl({
-  name,
-  label,
-  ...inputProps
-}: InputControlProps) {
-  const id = inputProps.id || `input-${name}`;
-  return (
-    <div className={styles.inputControl}>
-      <label htmlFor={id}>{label}</label>
-      <input id={id} name={name} {...inputProps} />
-    </div>
-  );
-}
+const InputControl = React.forwardRef(
+  (
+    { name, label, ...inputProps }: InputControlProps,
+    ref: React.Ref<HTMLInputElement>
+  ) => {
+    const id = inputProps.id || `input-${name}`;
+    return (
+      <div className={styles.inputControl}>
+        <label htmlFor={id}>{label}</label>
+        <input ref={ref} id={id} name={name} {...inputProps} />
+      </div>
+    );
+  }
+);
+InputControl.displayName = "InputControl";
+
+export default InputControl;

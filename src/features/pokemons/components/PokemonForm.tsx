@@ -1,21 +1,16 @@
 import React, { useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+// import { useNavigate } from "react-router-dom";
 import InputControl from "@/features/core/components/InputControl";
 
 import {
   PokemonCreatePayload,
   useCreatePokemonMutation,
 } from "../mutation-hooks";
-import { baseUrl } from "../query-hooks";
-import { PokemonDetail } from "../types";
 
 interface PokemonFormProps {
   onSubmit?: (pokemon: PokemonCreatePayload) => void;
 }
-
-const sleep = () => new Promise((resolve) => setTimeout(resolve, 2000));
 
 export default function PokemonForm(props: PokemonFormProps) {
   const { onSubmit } = props;
@@ -23,7 +18,7 @@ export default function PokemonForm(props: PokemonFormProps) {
   const [type, setType] = React.useState("");
   const [weight, setWeight] = React.useState(0);
   const [height, setHeight] = React.useState(0);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const formRef = useRef<HTMLFormElement | null>(null);
 
   const createPokemonMutation = useCreatePokemonMutation({
@@ -57,9 +52,17 @@ export default function PokemonForm(props: PokemonFormProps) {
     setHeight(0);
   };
 
+  const callbackRef: React.RefCallback<HTMLInputElement> = React.useCallback(
+    (ref) => {
+      ref?.focus();
+    },
+    []
+  );
+
   return (
     <form ref={formRef} onSubmit={handleSubmit} onReset={handleReset}>
       <InputControl
+        ref={callbackRef}
         label="Name"
         name="name"
         value={name}

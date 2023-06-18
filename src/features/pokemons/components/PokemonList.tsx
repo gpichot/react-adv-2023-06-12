@@ -18,6 +18,15 @@ export default function PokemonList() {
     limit: LIST_LIMIT,
   });
 
+  const { data: pokemonPage } = pokemonListQuery;
+  const cards = React.useMemo(
+    () =>
+      pokemonPage?.results.map((pokemon) => (
+        <PokemonCard key={pokemon.id} pokemon={pokemon} />
+      )),
+    [pokemonPage?.results]
+  );
+
   if (pokemonListQuery.isLoading) {
     return <div>Loading...</div>;
   }
@@ -26,7 +35,7 @@ export default function PokemonList() {
     return <div>Error</div>;
   }
 
-  const { data: pokemonPage } = pokemonListQuery;
+  const pageResult = pokemonListQuery.data;
 
   return (
     <div>
@@ -41,12 +50,12 @@ export default function PokemonList() {
           "Loading..."
         ) : (
           <span>
-            Page {page + 1} of {Math.ceil(pokemonPage.count / LIST_LIMIT)}
+            Page {page + 1} of {Math.ceil(pageResult.count / LIST_LIMIT)}
           </span>
         )}
       </span>
       <button
-        disabled={pokemonPage.nextOffset === null}
+        disabled={pageResult.nextOffset === null}
         onClick={() => setPage((prevPage) => prevPage + 1)}
       >
         Next
@@ -62,9 +71,7 @@ export default function PokemonList() {
         {pokemonListQuery.isFetching && (
           <div className={styles.pokemonListOverlay}>Loading...</div>
         )}
-        {pokemonPage.results.map((pokemon) => (
-          <PokemonCard key={pokemon.id} pokemon={pokemon} />
-        ))}
+        {cards}
       </div>
     </div>
   );

@@ -64,7 +64,7 @@ export function usePokemonListQuery({
     {
       keepPreviousData: true,
       cacheTime: 60 * 1000,
-      staleTime: 10 * 60 * 1000,
+      notifyOnChangeProps: "all",
     }
   );
 }

@@ -1,7 +1,9 @@
 import { PokedexProvider } from "@/features/pokedex/context";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { Preview } from "@storybook/react";
-import React from "react";
 import { BrowserRouter } from "react-router-dom";
+
+const queryClient = new QueryClient();
 
 const preview: Preview = {
   parameters: {
@@ -16,9 +18,11 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <BrowserRouter>
-        <PokedexProvider>
-          <Story />
-        </PokedexProvider>
+        <QueryClientProvider client={queryClient}>
+          <PokedexProvider>
+            <Story />
+          </PokedexProvider>
+        </QueryClientProvider>
       </BrowserRouter>
     ),
   ],
